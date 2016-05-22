@@ -11,16 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// CORS
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, X-Auth-Token, Origin, Authorization');
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
-
 Route::group(['middleware' => ['jwt.auth']], function () {
-    Route::get('/test', function(){ return 'jwt auth works'; });
 
     Route::get('/api/v1/companies/{id?}', 'Companies@index');
     Route::post('/api/v1/companies', 'Companies@store');
@@ -31,7 +28,12 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('/api/v1/employees', 'Employees@store');
     Route::post('/api/v1/employees/{id}', 'Employees@update');
     Route::delete('/api/v1/employees/{id}', 'Employees@destroy');
+
+
+    
 });
+Route::get('/api/v1/users/{id?}', 'Users@show');
+
 
     Route::get('/api/v2/companies/{id?}', 'Companies@index');
     Route::post('/api/v2/companies', 'Companies@store');
@@ -44,6 +46,6 @@ Route::group(array('prefix' => '/api/v1'), function()
 {
     Route::post('/authenticate', 'Auth\AuthController@authenticate');
 
-
+    Route::get('/logout', [ 'uses' => 'Auth\AuthController@getLogout']);
 });
 

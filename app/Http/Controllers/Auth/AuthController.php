@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use JWTAuth;
+use Illuminate\Contracts\Auth\Guard;
+use App\Http\Controllers\Auth;
 
 
 
@@ -96,5 +98,15 @@ class AuthController extends Controller
 
     protected function show() {
         return JWTAuth::parseToken()->toUser();
+    }
+
+    public function getUser(Guard $auth)
+    {
+        dd($auth->user()); // null
+
+        view()->composer('partials.nav', function($view) use ($auth){
+            dd($auth->user()); // returns User object
+            $view->with('currentUser', $auth->user()); // does what you expect
+        });
     }
 }

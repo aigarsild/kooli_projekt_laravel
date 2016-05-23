@@ -9,9 +9,20 @@ use App\Http\Requests;
 
 class Users extends Controller
 {
-    public function show($id) {
-        if (!$id) {
-            return User::orderBy('name', 'asc')->get();
+    public function showAll()
+    {
+        $users = User::orderBy('name', 'asc')->get();
+        if ($users) {
+            return $users;
+        } else {
+            return response()->json(['error' => 'No users have been registered']);
+        }
+    }
+
+    public function show($id)
+    {
+        if (!User::find($id)) {
+            return response()->json(['error' => 'User ID doesnt exist']);
         } else {
             return User::find($id);
         }

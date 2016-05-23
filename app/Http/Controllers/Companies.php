@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Http\Response;
 
 class Companies extends Controller
 {
@@ -16,7 +17,7 @@ class Companies extends Controller
     public function index($id = null)
     {
         if ($id == null) {
-            return Company::orderBy('name', 'asc')->get();
+            return Company::orderBy('created_at', 'desc')->get();
         } else {
             return $this->show($id);
         }
@@ -25,10 +26,12 @@ class Companies extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
+     *
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $company = new Company;
 
         $company->name = $request->input('name');
@@ -36,27 +39,34 @@ class Companies extends Controller
         $company->field = $request->input('field');
         $company->save();
 
-        return 'Company record successfully created with id ' . $company->id;
+        return response()->json([
+            'success' => 'Company record successfully created',
+            'company_id' => $company->id
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         return Company::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
+     *
      * @return Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $company = Company::find($id);
 
         $company->name = $request->input('name');
@@ -70,10 +80,12 @@ class Companies extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
-    public function destroy(Request $request, $id) {
+    public function destroy(Request $request, $id)
+    {
         $company = Company::find($id);
 
         $company->delete();

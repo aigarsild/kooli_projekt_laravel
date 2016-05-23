@@ -16,6 +16,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, X-Auth-Token, Origin, Authorization');
 
 Route::auth();
+Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 
@@ -32,13 +33,25 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     
 });
+Route::get('/api/v1/users/all', 'Users@showAll');
 Route::get('/api/v1/users/{id?}', 'Users@show');
 
-
+//test orutes
     Route::get('/api/v2/companies/{id?}', 'Companies@index');
     Route::post('/api/v2/companies', 'Companies@store');
     Route::post('/api/v2/companies/{id}', 'Companies@update');
     Route::delete('/api/v2/companies/{id}', 'Companies@destroy');
+
+Route::get('/api/v2/employees/{id?}', 'Employees@index');
+
+Route::get('/api/v2/company/employee/{id?}', 'Employees@findCompanyEmployees');
+Route::get('/api/v2/employee/company/{id?}', 'Employees@findEmployeeCompany');
+
+
+Route::post('/api/v2/employees', 'Employees@store');
+Route::post('/api/v2/employees/{id}', 'Employees@update');
+Route::delete('/api/v2/employees/{id}', 'Employees@destroy');
+
 
 
 

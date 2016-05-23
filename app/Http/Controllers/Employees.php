@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -51,6 +52,7 @@ class Employees extends Controller
         return Employee::find($id);
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -83,5 +85,24 @@ class Employees extends Controller
         $employee->delete();
 
         return "Employee record successfully deleted #" . $request->input('id');
+    }
+
+
+    public function findCompanyEmployees($id) {
+        $employees = Company::find($id)->employees;
+        if ($employees) {
+            return $employees;
+        } else {
+            return response()->json(['error' => 'Id does not exist']);
+        }
+    }
+
+    public function findEmployeeCompany($id) {
+        $company = Employee::find($id)->company;
+        if ($company) {
+            return $company;
+        } else {
+            return response()->json(['error' => 'Id does not exist']);
+        }
     }
 }

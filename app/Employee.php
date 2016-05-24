@@ -19,4 +19,9 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Company');
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany('App\Feedback');
+    }
 }

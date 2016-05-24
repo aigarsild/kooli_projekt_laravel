@@ -16,10 +16,10 @@ class CreateFeedbackTable extends Migration
             $table->increments('id');
             $table->integer('employee_id')->unsigned();
 
-            $table->string('name')->unique();
-            $table->string('email')->unique();
-            $table->string('contact_number');
-            $table->string('position');
+            $table->string('personal_tags');
+            $table->string('professional_tags');
+            $table->string('rate_person');
+            $table->string('rate_profession');
             $table->longText('worker_description');
             $table->longText('personal_description');
             $table->longText('professional_feedback');

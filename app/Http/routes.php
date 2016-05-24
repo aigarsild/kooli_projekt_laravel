@@ -22,13 +22,23 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::get('/api/v1/companies/{id?}', 'Companies@index');
     Route::post('/api/v1/companies', 'Companies@store');
-    Route::post('/api/v1/companies/{id}', 'Companies@update');
+    Route::post('/api/v1/companies/edit/{id}', 'Companies@update');
     Route::delete('/api/v1/companies/{id}', 'Companies@destroy');
 
     Route::get('/api/v1/employees/{id?}', 'Employees@index');
     Route::post('/api/v1/employees', 'Employees@store');
     Route::post('/api/v1/employees/{id}', 'Employees@update');
     Route::delete('/api/v1/employees/{id}', 'Employees@destroy');
+
+    Route::get('/api/v2/employees/{id?}', 'Employees@index');
+
+    Route::get('/api/v2/company/employee/{id?}', 'Employees@findCompanyEmployees');
+    Route::get('/api/v2/employee/company/{id?}', 'Employees@findEmployeeCompany');
+
+
+    Route::get('/api/v2/feedback/{id?}', 'FeedbackController@findEmployeeFeedback');
+    Route::get('/api/v2/employees/{id?}', 'FeedbackController@findFeedbackEmployee');
+    Route::get('/api/v2/feedbacks', 'FeedbackController@show');
 
 
     
@@ -42,10 +52,8 @@ Route::get('/api/v1/users/{id?}', 'Users@show');
     Route::post('/api/v2/companies/{id}', 'Companies@update');
     Route::delete('/api/v2/companies/{id}', 'Companies@destroy');
 
-Route::get('/api/v2/employees/{id?}', 'Employees@index');
 
-Route::get('/api/v2/company/employee/{id?}', 'Employees@findCompanyEmployees');
-Route::get('/api/v2/employee/company/{id?}', 'Employees@findEmployeeCompany');
+
 
 
 Route::post('/api/v2/employees', 'Employees@store');

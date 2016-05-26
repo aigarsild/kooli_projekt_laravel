@@ -14,6 +14,7 @@
 // CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, X-Auth-Token, Origin, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 Route::auth();
 Route::get('/home', 'HomeController@index');
@@ -23,12 +24,12 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('/api/v1/companies/{id?}', 'Companies@index');
     Route::post('/api/v1/companies', 'Companies@store');
     Route::post('/api/v1/companies/edit/{id}', 'Companies@update');
-    Route::delete('/api/v1/companies/{id}', 'Companies@destroy');
+    Route::delete('/api/v1/companies/delete/{id}', 'Companies@destroy');
 
     Route::get('/api/v1/employees/{id?}', 'Employees@index');
-    Route::post('/api/v1/employees', 'Employees@store');
+    Route::post('/api/v1/employees/add', 'Employees@store');
     Route::post('/api/v1/employees/{id}', 'Employees@update');
-    Route::delete('/api/v1/employees/{id}', 'Employees@destroy');
+    Route::delete('/api/v1/employees/delete/{id}', 'Employees@destroy');
 
     Route::get('/api/v2/employees/{id?}', 'Employees@index');
 
@@ -38,7 +39,9 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::get('/api/v2/feedback/{id?}', 'FeedbackController@findEmployeeFeedback');
     Route::get('/api/v2/employees/{id?}', 'FeedbackController@findFeedbackEmployee');
+
     Route::get('/api/v2/feedbacks', 'FeedbackController@show');
+    Route::get('/api/v2/feedbacks/delete/{id?}', 'FeedbackController@destroy');
 
 
     
@@ -53,7 +56,7 @@ Route::get('/api/v1/users/{id?}', 'Users@show');
     Route::delete('/api/v2/companies/{id}', 'Companies@destroy');
 
 
-
+Route::post('/api/v2/feedbacks/store', 'FeedbackController@store');
 
 
 Route::post('/api/v2/employees', 'Employees@store');

@@ -12,7 +12,7 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('feedbacks', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('employee_id')->unsigned();
 
@@ -30,7 +30,7 @@ class CreateFeedbackTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('feedback', function ($table) {
+        Schema::table('feedbacks', function ($table) {
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
